@@ -1,4 +1,4 @@
-package red.mohist.configuration;
+package com.mohistmc.configuration;
 
 import java.util.ArrayList;
 import java.util.HashSet;

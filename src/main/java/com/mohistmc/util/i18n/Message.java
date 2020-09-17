@@ -1,4 +1,4 @@
-package red.mohist.util.i18n;
+package com.mohistmc.util.i18n;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;

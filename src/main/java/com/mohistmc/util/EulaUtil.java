@@ -1,4 +1,4 @@
-package red.mohist.util;
+package com.mohistmc.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import red.mohist.util.i18n.Message;
+import com.mohistmc.util.i18n.Message;
 
 public class EulaUtil {
     public static void writeInfos() throws IOException {

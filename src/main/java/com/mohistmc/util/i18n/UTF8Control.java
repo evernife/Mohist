@@ -1,4 +1,4 @@
-package red.mohist.util.i18n;
+package com.mohistmc.util.i18n;
 
 import java.io.IOException;
 import java.io.InputStream;

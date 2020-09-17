@@ -1,4 +1,4 @@
-package red.mohist.configuration;
+package com.mohistmc.configuration;
 
 public class StringSetting extends Setting<String> {
     private String value;

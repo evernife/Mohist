@@ -1,12 +1,12 @@
-package red.mohist.configuration;
+package com.mohistmc.configuration;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import red.mohist.Mohist;
-import red.mohist.util.FileUtil;
-import red.mohist.util.NumberUtils;
+import com.mohistmc.Mohist;
+import com.mohistmc.util.FileUtil;
+import com.mohistmc.util.NumberUtils;
 
 public class MohistConfigUtil {
     public static File mohistyml = new File("mohist-config", "mohist.yml");

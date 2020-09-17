@@ -1,6 +1,4 @@
-package red.mohist;
-
-import org.apache.logging.log4j.Logger;
+package com.mohistmc;
 
 public class Mohist {
     public static final String NAME = "Mohist";

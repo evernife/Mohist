@@ -1,4 +1,4 @@
-package red.mohist.configuration;
+package com.mohistmc.configuration;
 
 public class IntSetting extends Setting<Integer>
 {

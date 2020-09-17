@@ -1,4 +1,4 @@
-package red.mohist.configuration;
+package com.mohistmc.configuration;
 
 
 public abstract class Setting<T>

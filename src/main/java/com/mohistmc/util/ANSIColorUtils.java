@@ -1,4 +1,4 @@
-package red.mohist.util;
+package com.mohistmc.util;
 
 public class ANSIColorUtils {
 
