@@ -59,7 +59,7 @@ public class CraftEnderSignal extends CraftEntity implements EnderSignal {
 
     @Override
     public void setItem(ItemStack item) {
-        getHandle().setItem(item != null ? CraftItemStack.asNMSCopy(item) : Items.ENDER_EYE.createItemStack());
+        getHandle().func_213863_b(item != null ? CraftItemStack.asNMSCopy(item) : Items.ENDER_EYE.getDefaultInstance());
     }
 
     @Override

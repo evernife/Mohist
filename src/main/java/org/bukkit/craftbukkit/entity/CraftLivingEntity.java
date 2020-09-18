@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.boss.WitherEntity;
@@ -245,23 +246,23 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public int getArrowCooldown() {
-        return getHandle().arrowCooldown;
+        return getHandle().arrowHitTimer;
     }
 
     @Override
     public void setArrowCooldown(int ticks) {
-        getHandle().arrowCooldown = ticks;
+        getHandle().arrowHitTimer = ticks;
     }
 
     @Override
     public int getArrowsInBody() {
-        return getHandle().getArrowCount();
+        return getHandle().getArrowCountInEntity();
     }
 
     @Override
     public void setArrowsInBody(int count) {
         Preconditions.checkArgument(count >= 0, "New arrow amount must be >= 0");
-        getHandle().getDataWatcher().set(EntityLiving.ARROWS_IN_BODY, count);
+        getHandle().getDataManager().set(net.minecraft.entity.LivingEntity.ARROW_COUNT_IN_ENTITY, count);
     }
 
     @Override
@@ -656,17 +657,17 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public EntityCategory getCategory() {
-        EnumMonsterType type = getHandle().getMonsterType(); // Not actually an enum?
+        CreatureAttribute type = getHandle().getCreatureAttribute(); // Not actually an enum?
 
-        if (type == EnumMonsterType.UNDEFINED) {
+        if (type == CreatureAttribute.UNDEFINED) {
             return EntityCategory.NONE;
-        } else if (type == EnumMonsterType.UNDEAD) {
+        } else if (type == CreatureAttribute.UNDEAD) {
             return EntityCategory.UNDEAD;
-        } else if (type == EnumMonsterType.ARTHROPOD) {
+        } else if (type == CreatureAttribute.ARTHROPOD) {
             return EntityCategory.ARTHROPOD;
-        } else if (type == EnumMonsterType.ILLAGER) {
+        } else if (type == CreatureAttribute.ILLAGER) {
             return EntityCategory.ILLAGER;
-        } else if (type == EnumMonsterType.WATER_MOB) {
+        } else if (type == CreatureAttribute.WATER) {
             return EntityCategory.WATER;
         }
 

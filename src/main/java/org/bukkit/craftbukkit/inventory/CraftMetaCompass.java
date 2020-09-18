@@ -5,13 +5,13 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.mojang.serialization.DataResult;
 import java.util.Map;
 import java.util.Optional;
-import net.minecraft.server.DynamicOpsNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.NBTDynamicOps;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.NBTBase;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagString;
-import net.minecraft.server.ResourceKey;
-import net.minecraft.server.WorldServer;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.server.ServerWorld;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -30,7 +30,7 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
     static final ItemMetaKey LODESTONE_POS_Z = new ItemMetaKey("LodestonePosZ");
     static final ItemMetaKey LODESTONE_TRACKED = new ItemMetaKey("LodestoneTracked");
 
-    private NBTTagString lodestoneWorld;
+    private StringNBT lodestoneWorld;
     private int lodestoneX;
     private int lodestoneY;
     private int lodestoneZ;
@@ -49,16 +49,16 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         tracked = compassMeta.tracked;
     }
 
-    CraftMetaCompass(NBTTagCompound tag) {
+    CraftMetaCompass(CompoundNBT tag) {
         super(tag);
-        if (tag.hasKey(LODESTONE_DIMENSION.NBT) && tag.hasKey(LODESTONE_POS.NBT)) {
-            lodestoneWorld = (NBTTagString) tag.get(LODESTONE_DIMENSION.NBT);
-            NBTTagCompound pos = tag.getCompound(LODESTONE_POS.NBT);
+        if (tag.contains(LODESTONE_DIMENSION.NBT) && tag.contains(LODESTONE_POS.NBT)) {
+            lodestoneWorld = (StringNBT) tag.get(LODESTONE_DIMENSION.NBT);
+            CompoundNBT pos = tag.getCompound(LODESTONE_POS.NBT);
             lodestoneX = pos.getInt("X");
             lodestoneY = pos.getInt("Y");
             lodestoneZ = pos.getInt("Z");
         }
-        if (tag.hasKey(LODESTONE_TRACKED.NBT)) {
+        if (tag.contains(LODESTONE_TRACKED.NBT)) {
             tracked = tag.getBoolean(LODESTONE_TRACKED.NBT);
         }
     }
@@ -67,7 +67,7 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         super(map);
         String lodestoneWorldString = SerializableMeta.getString(map, LODESTONE_POS_WORLD.BUKKIT, true);
         if (lodestoneWorldString != null) {
-            lodestoneWorld = NBTTagString.a(lodestoneWorldString);
+            lodestoneWorld = StringNBT.valueOf(lodestoneWorldString);
             lodestoneX = (Integer) map.get(LODESTONE_POS_X.BUKKIT);
             lodestoneY = (Integer) map.get(LODESTONE_POS_Y.BUKKIT);
             lodestoneZ = (Integer) map.get(LODESTONE_POS_Z.BUKKIT);
@@ -82,20 +82,20 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
     }
 
     @Override
-    void applyToItem(NBTTagCompound tag) {
+    void applyToItem(CompoundNBT tag) {
         super.applyToItem(tag);
 
         if (lodestoneWorld != null) {
-            NBTTagCompound pos = new NBTTagCompound();
-            pos.setInt("X", lodestoneX);
-            pos.setInt("Y", lodestoneY);
-            pos.setInt("Z", lodestoneZ);
-            tag.set(LODESTONE_POS.NBT, pos);
-            tag.set(LODESTONE_DIMENSION.NBT, lodestoneWorld);
+            CompoundNBT pos = new CompoundNBT();
+            pos.putInt("X", lodestoneX);
+            pos.putInt("Y", lodestoneY);
+            pos.putInt("Z", lodestoneZ);
+            tag.put(LODESTONE_POS.NBT, pos);
+            tag.put(LODESTONE_DIMENSION.NBT, lodestoneWorld);
         }
 
         if (tracked != null) {
-            tag.setBoolean(LODESTONE_TRACKED.NBT, tracked);
+            tag.putBoolean(LODESTONE_TRACKED.NBT, tracked);
         }
     }
 
@@ -129,9 +129,9 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         if (lodestoneWorld == null) {
             return null;
         }
-        Optional<ResourceKey<net.minecraft.server.World>> key = net.minecraft.server.World.f.parse(DynamicOpsNBT.a, lodestoneWorld).result();
-        WorldServer worldServer = key.isPresent() ? MinecraftServer.getServer().getWorldServer(key.get()) : null;
-        World world = worldServer != null ? worldServer.getWorld() : null;
+        Optional<RegistryKey<net.minecraft.world.World>> key = net.minecraft.world.World.field_234917_f_.parse(NBTDynamicOps.INSTANCE, lodestoneWorld).result();
+        ServerWorld worldServer = key.isPresent() ? MinecraftServer.getServer().getWorld(key.get()) : null;
+        World world = worldServer != null ? worldServer.getCBWorld() : null;
         return new Location(world, lodestoneX, lodestoneY, lodestoneZ); // world may be null here, if the referenced world is not loaded
     }
 
@@ -141,9 +141,9 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         if (lodestone == null) {
             this.lodestoneWorld = null;
         } else {
-            ResourceKey<net.minecraft.server.World> key = ((CraftWorld) lodestone.getWorld()).getHandle().getDimensionKey();
-            DataResult<NBTBase> dataresult = net.minecraft.server.World.f.encodeStart(DynamicOpsNBT.a, key);
-            this.lodestoneWorld = (NBTTagString) dataresult.get().orThrow();
+            RegistryKey<net.minecraft.world.World> key = ((CraftWorld) lodestone.getWorld()).getHandle().func_234923_W_();
+            DataResult<INBT> dataresult = net.minecraft.world.World.field_234917_f_.encodeStart(NBTDynamicOps.INSTANCE, key);
+            this.lodestoneWorld = (StringNBT) dataresult.get().orThrow();
             this.lodestoneX = lodestone.getBlockX();
             this.lodestoneY = lodestone.getBlockY();
             this.lodestoneZ = lodestone.getBlockZ();
@@ -189,7 +189,7 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         if (meta instanceof CraftMetaCompass) {
             CraftMetaCompass that = (CraftMetaCompass) meta;
 
-            return (this.hasLodestone() ? that.hasLodestone() && this.lodestoneWorld.asString().equals(that.lodestoneWorld.asString())
+            return (this.hasLodestone() ? that.hasLodestone() && this.lodestoneWorld.getString().equals(that.lodestoneWorld.getString())
                     && this.lodestoneX == that.lodestoneX && this.lodestoneY == that.lodestoneY
                     && this.lodestoneZ == that.lodestoneZ : !that.hasLodestone())
                     && this.tracked == that.tracked;
@@ -207,7 +207,7 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
         super.serialize(builder);
 
         if (hasLodestone()) {
-            builder.put(LODESTONE_POS_WORLD.BUKKIT, lodestoneWorld.asString());
+            builder.put(LODESTONE_POS_WORLD.BUKKIT, lodestoneWorld.getString());
             builder.put(LODESTONE_POS_X.BUKKIT, lodestoneX);
             builder.put(LODESTONE_POS_Y.BUKKIT, lodestoneY);
             builder.put(LODESTONE_POS_Z.BUKKIT, lodestoneZ);

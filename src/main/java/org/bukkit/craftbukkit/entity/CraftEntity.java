@@ -445,7 +445,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public World getWorld() {
-        return entity.world.getWorldCB();
+        return entity.world.getCBWorld();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.bukkit.craftbukkit.entity;
 
-import et.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.LivingEntity;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Projectile;

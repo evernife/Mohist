@@ -43,7 +43,7 @@ public final class CraftMemoryMapper {
     }
 
     public static Location fromNms(GlobalPos globalPos) {
-        return new org.bukkit.Location(((CraftServer) Bukkit.getServer()).getServer().getWorld(globalPos.func_239646_a_()).getWorldCB(), globalPos.getPos().getX(), globalPos.getPos().getY(),
+        return new org.bukkit.Location(((CraftServer) Bukkit.getServer()).getServer().getWorld(globalPos.func_239646_a_()).getCBWorld(), globalPos.getPos().getX(), globalPos.getPos().getY(),
             globalPos.getPos().getZ());
     }
 

@@ -34,7 +34,7 @@ public class CraftDragonBattle implements DragonBattle {
             return null;
         }
 
-        return new Location(handle.world.getWorldCB(), handle.exitPortalLocation.getX(), handle.exitPortalLocation.getY(), handle.exitPortalLocation.getZ());
+        return new Location(handle.world.getCBWorld(), handle.exitPortalLocation.getX(), handle.exitPortalLocation.getY(), handle.exitPortalLocation.getZ());
     }
 
     @Override
