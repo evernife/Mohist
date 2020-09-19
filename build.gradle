@@ -377,6 +377,7 @@ project(':forge') {
         installer 'com.googlecode.json-simple:json-simple:1.1.1'
         installer 'org.xerial:sqlite-jdbc:3.32.3'
         installer 'mysql:mysql-connector-java:5.1.49'
+        installer 'org.apache.logging.log4j:log4j-iostreams:2.11.2'
         // spigot
         // paper
 

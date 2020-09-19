@@ -722,7 +722,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     @Override
     public Location getBedSpawnLocation() {
-        World world = getHandle().server.getWorld(getHandle().func_241141_L_()).getWorldCB();
+        World world = getHandle().server.getWorld(getHandle().func_241141_L_()).getCBWorld();
         BlockPos bed = getHandle().func_241140_K_();
 
         if (world != null && bed != null) {

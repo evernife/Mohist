@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -1007,7 +1008,7 @@ public final class CraftServer implements Server {
             net.minecraft.server.Main.func_240761_a_(worldSession, DataFixesManager.getDataFixer(), console.options.has("eraseCache"), () -> {
                 return true;
             }, worlddata.func_230418_z_().func_236224_e_().func_239659_c_().stream().map((entry) -> {
-                return RegistryKey.func_240903_a_(Registry.field_239698_ad_, ((RegistryKey) entry.getKey()).func_240901_a_());
+                return RegistryKey.func_240903_a_(Registry.field_239699_ae_, ((RegistryKey) entry.getKey()).func_240901_a_());
             }).collect(ImmutableSet.toImmutableSet()));
         }
 
@@ -1040,12 +1041,12 @@ public final class CraftServer implements Server {
         internal.setAllowedSpawnTypes(true, true);
         console.worlds.put(internal.func_234923_W_(), internal);
 
-        pluginManager.callEvent(new WorldInitEvent(internal.getWorldCB()));
+        pluginManager.callEvent(new WorldInitEvent(internal.getCBWorld()));
 
         getServer().loadInitialChunks(internal.getChunkProvider().chunkManager.field_219266_t, internal);
 
-        pluginManager.callEvent(new WorldLoadEvent(internal.getWorldCB()));
-        return internal.getWorldCB();
+        pluginManager.callEvent(new WorldLoadEvent(internal.getCBWorld()));
+        return internal.getCBWorld();
     }
 
     @Override
@@ -1073,7 +1074,7 @@ public final class CraftServer implements Server {
             return false;
         }
 
-        WorldUnloadEvent e = new WorldUnloadEvent(handle.getWorldCB());
+        WorldUnloadEvent e = new WorldUnloadEvent(handle.getCBWorld());
         pluginManager.callEvent(e);
 
         if (e.isCancelled()) {
@@ -1722,7 +1723,7 @@ public final class CraftServer implements Server {
             if (pos == null) {
                 completions = getCommandMap().tabComplete(player, message);
             } else {
-                completions = getCommandMap().tabComplete(player, message, new Location(world.getWorldCB(), pos.x, pos.y, pos.z));
+                completions = getCommandMap().tabComplete(player, message, new Location(world.getCBWorld(), pos.x, pos.y, pos.z));
             }
         } catch (CommandException ex) {
             player.sendMessage(ChatColor.RED + "An internal error occurred while attempting to tab-complete this command");

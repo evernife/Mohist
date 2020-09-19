@@ -310,6 +310,11 @@ public class CraftWorld implements World {
     }
 
     @Override
+    public boolean setSpawnLocation(int x, int y, int z, float angle) {
+        return false;
+    }
+
+    @Override
     public boolean setSpawnLocation(int x, int y, int z) {
         try {
             Location previousLocation = getSpawnLocation();

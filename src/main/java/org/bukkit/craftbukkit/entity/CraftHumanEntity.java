@@ -572,6 +572,6 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
 
     @Override
     public boolean dropItem(boolean dropAll) {
-        return getHandle().dropItem(dropAll);
+        return getHandle().drop(dropAll);
     }
 }
