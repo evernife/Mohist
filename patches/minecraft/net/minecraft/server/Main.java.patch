@@ -37,8 +37,7 @@
 +         if (!optionset.has(optionspec1)) net.minecraftforge.fml.server.ServerModLoader.load(); // Load mods before we load almost anything else anymore. Single spot now. Only loads if they haven't passed the initserver param
           DynamicRegistries.Impl dynamicregistries$impl = DynamicRegistries.func_239770_b_();
           Path path = Paths.get("server.properties");
--         ServerPropertiesProvider serverpropertiesprovider = new ServerPropertiesProvider(dynamicregistries$impl, path);
-+         ServerPropertiesProvider serverpropertiesprovider = new ServerPropertiesProvider(dynamicregistries$impl, optionset);
+          ServerPropertiesProvider serverpropertiesprovider = new ServerPropertiesProvider(dynamicregistries$impl, path);
           serverpropertiesprovider.func_219035_b();
 -         Path path1 = Paths.get("eula.txt");
 -         ServerEula servereula = new ServerEula(path1);
