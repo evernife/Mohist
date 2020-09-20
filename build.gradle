@@ -832,27 +832,6 @@ project(':forge') {
             }
         }
     }
-    
-    license {
-        header = file("$rootDir/LICENSE-header.txt")
-
-        include 'net/minecraftforge/'
-        exclude 'net/minecraftforge/server/terminalconsole/'
-        exclude 'net/minecraftforge/api/' // exclude API here because it's validated in the SPI build
-        exclude 'net/minecraftforge/fml/common/versioning/ComparableVersion.java'
-        exclude 'net/minecraftforge/fml/common/versioning/InvalidVersionSpecificationException.java'
-        exclude 'net/minecraftforge/fml/common/versioning/Restriction.java'
-        exclude 'net/minecraftforge/fml/common/versioning/VersionRange.java'
-
-        tasks {
-            main {
-                files = files("$rootDir/src/main/java")
-            }
-            test {
-                files = files("$rootDir/src/test/java")
-            }
-        }
-    }
 
     task userdevExtras(type:Jar) {
         dependsOn classes
